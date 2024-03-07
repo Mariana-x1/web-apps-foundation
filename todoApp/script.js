@@ -27,9 +27,18 @@ function displayTodos() {
       todo.done = this.checked;
     });
 
+    // Create a delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    // Add event listener to the delete button
+    deleteButton.addEventListener("click", function () {
+      deleteTodo(todo.id);
+    });
+
     // Set the text content of the list item to the todo text
     li.textContent = todo.description;
     li.prepend(checkbox); // Prepend the checkbox to the list item
+    li.appendChild(deleteButton);
     // Append the list item to the todo list element
     todoList.appendChild(li);
   });
@@ -69,6 +78,12 @@ function generateId() {
     return 1;
   }
 }
-
+// Function to delete a todo by ID
+function deleteTodo(todoId) {
+  // Filter out the todo with the specified ID and update the todos array
+  todos = todos.filter((todo) => todo.id !== todoId);
+  // Update the display to reflect the changes
+  displayTodos();
+}
 // Call the displayTodos function to initially display the todos
 displayTodos();
