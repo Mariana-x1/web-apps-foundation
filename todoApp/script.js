@@ -26,5 +26,27 @@ function displayTodos() {
   });
 }
 
+// Function to add a new todo
+function addTodo() {
+  // Get the input field for the todo
+  const todoInput = document.querySelector("#todo-input");
+  // Get the trimmed value of the input field (trim trailing spaces)
+  const todoText = todoInput.value.trim();
+  // Check if the input field is not empty
+  if (todoText !== "") {
+    // Create a new todo object with the input text and default 'done' status
+    const newTodo = {
+      description: todoText,
+      done: false,
+    };
+    // Add the new todo to the todos array
+    todos.push(newTodo);
+    // Update the display to reflect the changes
+    displayTodos();
+    // Clear the input field after adding the todo
+    todoInput.value = "";
+  }
+}
+
 // Call the displayTodos function to initially display the todos
 displayTodos();
