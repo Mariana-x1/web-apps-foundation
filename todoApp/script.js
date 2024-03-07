@@ -1,8 +1,8 @@
 // Define the initial todo list
 let todos = [
-  { description: "learn HTML", done: false },
-  { description: "learn JS", done: false },
-  { description: "learn CSS", done: false },
+  { id: 1, description: "learn HTML", done: false },
+  { id: 2, description: "learn JS", done: false },
+  { id: 3, description: "learn CSS", done: false },
 ];
 
 // Function to display todos
@@ -36,6 +36,7 @@ function addTodo() {
   if (todoText !== "") {
     // Create a new todo object with the input text and default 'done' status
     const newTodo = {
+      id: generateId(),
       description: todoText,
       done: false,
     };
@@ -45,6 +46,18 @@ function addTodo() {
     displayTodos();
     // Clear the input field after adding the todo
     todoInput.value = "";
+  }
+}
+
+// Function to generate unique ID for todos
+function generateId() {
+  // Check if todos array is not empty
+  if (todos.length > 0) {
+    // If not empty, return ID of the last todo incremented by 1
+    return todos[todos.length - 1].id + 1;
+  } else {
+    // If empty, return 1 as the default ID
+    return 1;
   }
 }
 
