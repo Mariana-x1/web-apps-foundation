@@ -6,14 +6,24 @@ let todos = [
 ];
 
 // Function to display todos
-function displayTodos() {
+function displayTodos(filter = "All") {
   // Get the element where we'll display the todos
   const todoList = document.querySelector("#todo-list");
   // Clear the existing content
   todoList.innerText = "";
 
+  // Filter todos based on the selected filter
+  let filteredTodos;
+  if (filter === "Open") {
+    filteredTodos = todos.filter((todo) => !todo.done);
+  } else if (filter === "Done") {
+    filteredTodos = todos.filter((todo) => todo.done);
+  } else {
+    filteredTodos = todos;
+  }
+
   // Iterate through each todo item
-  todos.forEach((todo) => {
+  filteredTodos.forEach((todo) => {
     // Create a list item element
     const li = document.createElement("li");
 
@@ -25,6 +35,7 @@ function displayTodos() {
     // Set an event listener to update the todo's done property when the checkbox is toggled
     checkbox.addEventListener("change", function () {
       todo.done = this.checked;
+      displayTodos(filter); // Update the display after todo is toggled
     });
 
     // Create a delete button
@@ -85,5 +96,13 @@ function deleteTodo(todoId) {
   // Update the display to reflect the changes
   displayTodos();
 }
+
+// Event listener for the filter radio buttons
+document.querySelectorAll('input[name="filter"]').forEach((radio) => {
+  radio.addEventListener("change", function () {
+    // Pass the selected filter value to displayTodos function
+    displayTodos(this.value);
+  });
+});
 // Call the displayTodos function to initially display the todos
 displayTodos();
