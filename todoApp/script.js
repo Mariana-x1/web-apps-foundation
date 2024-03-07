@@ -9,7 +9,6 @@ let todos = [
 function displayTodos() {
   // Get the element where we'll display the todos
   const todoList = document.querySelector("#todo-list");
-
   // Clear the existing content
   todoList.innerText = "";
 
@@ -18,9 +17,19 @@ function displayTodos() {
     // Create a list item element
     const li = document.createElement("li");
 
+    // Create a checkbox element
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.done; // Set the checked status based on the todo's done property
+
+    // Set an event listener to update the todo's done property when the checkbox is toggled
+    checkbox.addEventListener("change", function () {
+      todo.done = this.checked;
+    });
+
     // Set the text content of the list item to the todo text
     li.textContent = todo.description;
-
+    li.prepend(checkbox); // Prepend the checkbox to the list item
     // Append the list item to the todo list element
     todoList.appendChild(li);
   });
