@@ -104,5 +104,12 @@ document.querySelectorAll('input[name="filter"]').forEach((radio) => {
     displayTodos(this.value);
   });
 });
+
+// Function to remove all todos
+function removeAllTodos() {
+  todos = []; // Clear the todos array
+  displayTodos(); // Update the display
+}
+
 // Call the displayTodos function to initially display the todos
 displayTodos();
