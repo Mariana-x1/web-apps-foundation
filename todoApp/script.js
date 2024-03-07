@@ -4,11 +4,15 @@ let todos = [
   { id: 2, description: "learn JS", done: false },
   { id: 3, description: "learn CSS", done: false },
 ];
+//Wenn die Variable filteredTodos also true ist,
+//wird sie durch !filteredTodos zu false und umgekehrt.
+filteredTodos = !filteredTodos;
 
 // Function to display todos
 function displayTodos(filter = "All") {
   // Get the element where we'll display the todos
   const todoList = document.querySelector("#todo-list");
+
   // Clear the existing content
   todoList.innerText = "";
 
