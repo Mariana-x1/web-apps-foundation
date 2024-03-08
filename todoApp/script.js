@@ -5,6 +5,19 @@ let todos = [
   { id: 3, description: "learn CSS", done: false },
 ];
 
+// Load todos from Local Storage
+function loadTodosFromLocalStorage() {
+  const storedTodos = localStorage.getItem("todos");
+  if (storedTodos) {
+    todos = JSON.parse(storedTodos);
+  }
+}
+
+// Save todos to Local Storage
+function saveTodosToLocalStorage() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
 // Function to display todos
 function displayTodos(filter = "All") {
   // Get the element where we'll display the todos
@@ -12,6 +25,7 @@ function displayTodos(filter = "All") {
 
   // Clear the existing content
   todoList.innerText = "";
+  todoList.addEventListener("submit", updateTodo); ////////////////////////////**************** */
 
   // Filter todos based on the selected filter
   let filteredTodos;
@@ -32,9 +46,11 @@ function displayTodos(filter = "All") {
     // Create a checkbox element
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.id = "todo-" + todo.id;
     // Set the checked status based on the todo's done property
     checkbox.checked = todo.done;
-    checkbox.id = "todo-" + todo.id;
+    checkbox.todoObj = todo;
+
     //jedes Element braucht ein label mit for-Atribute (dieses zeigt auf die ID des input-Elements)
     const label = document.createElement("label");
     label.htmlFor = checkbox.id;
@@ -66,6 +82,7 @@ function displayTodos(filter = "All") {
 }
 
 // Function to add a new todo
+
 function addTodo() {
   // Get the input field for the todo
   const todoInput = document.querySelector("#todo-input");
@@ -75,7 +92,7 @@ function addTodo() {
   if (todoText !== "") {
     // Create a new todo object with the input text and default 'done' status
     const newTodo = {
-      id: generateId(),
+      id: generateId(), //Math.floor(Math.random() * 999999999 * Date.now()), // konnen auch id so generieren.
       description: todoText,
       done: false,
     };
@@ -85,6 +102,8 @@ function addTodo() {
     displayTodos();
     // Clear the input field after adding the todo
     todoInput.value = "";
+    // Save todos to Local Storage
+    saveTodosToLocalStorage();
   }
 }
 
@@ -99,13 +118,22 @@ function generateId() {
     return 1;
   }
 }
+
+function updateTodo(event) {
+  const updateTodo = event.target.todoObj;
+  updateTodo.done = !updateTodo.done;
+  console.dir(updateTodo);
+}
+
 // Function to delete a todo by ID
 function deleteTodo(todoId) {
   // Filter out the todo with the specified ID and update the todos array
   todos = todos.filter((todo) => todo.id !== todoId);
   // Update the display to reflect the changes
   displayTodos();
-  // Nachdem das Todo gelöscht wurde, speichern Sie den Zustand im Local Storage
+
+  // Save todos to Local Storage
+  saveTodosToLocalStorage();
 }
 
 // Event listener for the filter radio buttons
@@ -121,6 +149,7 @@ function removeAllTodos() {
   todos = []; // Clear the todos array
   displayTodos(); // Update the display
 }
-
+// Load todos from Local Storage when the page is loaded
+loadTodosFromLocalStorage();
 // Call the displayTodos function to initially display the todos
 displayTodos();
