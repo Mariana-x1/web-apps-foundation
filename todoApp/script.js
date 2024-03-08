@@ -6,7 +6,7 @@ let todos = [
 ];
 //Wenn die Variable filteredTodos also true ist,
 //wird sie durch !filteredTodos zu false und umgekehrt.
-filteredTodos = !filteredTodos;
+//filteredTodos = !filteredTodos;
 
 // Function to display todos
 function displayTodos(filter = "All") {
@@ -25,6 +25,7 @@ function displayTodos(filter = "All") {
   } else {
     filteredTodos = todos;
   }
+  console.log(filteredTodos);
 
   // Iterate through each todo item
   filteredTodos.forEach((todo) => {
@@ -34,7 +35,14 @@ function displayTodos(filter = "All") {
     // Create a checkbox element
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.checked = todo.done; // Set the checked status based on the todo's done property
+    // Set the checked status based on the todo's done property
+    checkbox.checked = todo.done;
+    checkbox.id = "todo-" + todo.id;
+    //jedes Element braucht ein label mit for-Atribute (dieses zeigt auf die ID des input-Elements)
+    const label = document.createElement("label");
+    label.htmlFor = checkbox.id;
+    li.append(checkbox, label);
+    todoList.append(li);
 
     // Set an event listener to update the todo's done property when the checkbox is toggled
     checkbox.addEventListener("change", function () {
@@ -48,6 +56,7 @@ function displayTodos(filter = "All") {
     // Add event listener to the delete button
     deleteButton.addEventListener("click", function () {
       deleteTodo(todo.id);
+      console.log(deleteButton);
     });
 
     // Set the text content of the list item to the todo text
@@ -99,6 +108,7 @@ function deleteTodo(todoId) {
   todos = todos.filter((todo) => todo.id !== todoId);
   // Update the display to reflect the changes
   displayTodos();
+  // Nachdem das Todo gelöscht wurde, speichern Sie den Zustand im Local Storage
 }
 
 // Event listener for the filter radio buttons
