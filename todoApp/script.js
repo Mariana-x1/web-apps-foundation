@@ -57,12 +57,62 @@ function displayTodos(filter = "All") {
     li.append(checkbox, label);
     todoList.append(li);
 
-    // Set an event listener to update the todo's done property when the checkbox is toggled
-    checkbox.addEventListener("change", function () {
-      todo.done = this.checked;
-      displayTodos(filter); // Update the display after todo is toggled
+    // Create an input field for editing the description
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.value = todo.description;
+    inputField.setAttribute("readonly", true); // Set as readonly initially
+
+    // Create an edit button
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click", function () {
+      editTodoDescription(inputField);
+      // editTodoDescription(inputField); // Call the function to enable editing
+      // inputField.removeAttribute("readonly"); // Remove readonly attribute to enable editing
+      displayTodos(filter);
+      // saveTodosToLocalStorage();
+      console.log(editButton);
     });
 
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Save";
+    saveButton.addEventListener(
+      "click",
+      function () {
+        const newDescription = inputField.value;
+        saveTodoChanges(todo.id, newDescription);
+        // Save the edited text
+        //// todo.description = newText;
+        // inputField.setAttribute("readonly", true);
+        // displayTodos(filter); // Update the display after editing
+        //saveTodosToLocalStorage();
+        console.log(saveButton);
+      },
+
+      // Set an event listener to update the todo's done property when the checkbox is toggled
+      checkbox.addEventListener("change", function () {
+        todo.done = this.checked;
+        if (this.checked) {
+          // Wenn die Checkbox überprüft ist, fügen Sie die Klasse 'done' hinzu, um den Text durchzustreichen
+          // li.classList.add(".done");
+          //li.style.textDecoration = "line-through";
+        } else {
+          // Wenn die Checkbox nicht überprüft ist, entfernen Sie die Klasse 'done'
+          // li.classList.remove("done");
+          //li.style.textDecoration = "none";
+        }
+        displayTodos(filter); // Update the display after todo is toggled
+        saveTodosToLocalStorage();
+      })
+    );
+
+    // const editButton = document.createElement("button2");
+    // editButton.textContent = "Edit";
+    // editButton.addEventListener("click", function () {
+    //   editTodo(todo.id);
+    //   console.log(editButton);
+    // });
     // Create a delete button
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -76,6 +126,8 @@ function displayTodos(filter = "All") {
     li.textContent = todo.description;
     li.prepend(checkbox); // Prepend the checkbox to the list item
     li.appendChild(deleteButton);
+    li.appendChild(editButton);
+    li.appendChild(saveButton);
     // Append the list item to the todo list element
     todoList.appendChild(li);
   });
@@ -140,6 +192,23 @@ function updateTodo(event) {
   console.dir(updateTodo);
 }
 
+function saveTodoChanges(todoId, newDescription) {
+  // Find the todo in the todos array based on its ID
+  const todoToUpdate = todos.find((todo) => todo.id === todoId);
+  if (todoToUpdate) {
+    // Update the description of the todo
+    todoToUpdate.description = newDescription;
+    // Save todos to Local Storage
+    // Update the display
+    displayTodos();
+  } else {
+    console.error("Todo not found!");
+  }
+  saveTodosToLocalStorage();
+}
+function editTodoDescription(inputField) {
+  inputField.removeAttribute("readonly"); // Remove readonly attribute to enable editing
+}
 // Function to delete a todo by ID
 function deleteTodo(todoId) {
   // Filter out the todo with the specified ID and update the todos array
@@ -173,6 +242,7 @@ function removedoneTodos() {
   // Save todos to Local Storage
   saveTodosToLocalStorage();
 }
+
 // Load todos from Local Storage when the page is loaded
 loadTodosFromLocalStorage();
 // Call the displayTodos function to initially display the todos
