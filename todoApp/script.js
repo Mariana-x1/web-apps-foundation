@@ -160,13 +160,18 @@ document.querySelectorAll('input[name="filter"]').forEach((radio) => {
 });
 
 // Event listener for the "Remove All Todos" button
-const removeAllButton = document.querySelector("#remove-all-btn");
-removeAllButton.addEventListener("click", removeAllTodos);
+const removedoneButton = document.querySelector("#remove-all-btn");
+removedoneButton.addEventListener("click", removedoneTodos);
 
 // Function to remove all todos
-function removeAllTodos() {
-  todos = []; // Clear the todos array
+function removedoneTodos() {
+  // Filter out the done todos and update the todos array
+  todos = todos.filter((todo) => !todo.done);
+  // Update the display to reflect the changes
+  // todos = []; // Clear the all todos array
   displayTodos(); // Update the display
+  // Save todos to Local Storage
+  saveTodosToLocalStorage();
 }
 // Load todos from Local Storage when the page is loaded
 loadTodosFromLocalStorage();
