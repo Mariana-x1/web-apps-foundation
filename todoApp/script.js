@@ -25,7 +25,7 @@ function displayTodos(filter = "All") {
 
   // Clear the existing content
   todoList.innerText = "";
-  todoList.addEventListener("submit", updateTodo); ////////////////////////////**************** */
+  //todoList.addEventListener("submit", updateTodo); ////////////////////////////**************** */
 
   // Filter todos based on the selected filter
   let filteredTodos;
@@ -81,11 +81,16 @@ function displayTodos(filter = "All") {
   });
 }
 
-// Function to add a new todo
+// Event listener for form submission
+const todoForm = document.querySelector("#todo-form");
+todoForm.addEventListener("submit", addTodo);
 
-function addTodo() {
+// Function to add a new todo
+function addTodo(event) {
+  event.preventDefault();
   // Get the input field for the todo
   const todoInput = document.querySelector("#todo-input");
+  // const todoForm = document.querySelector("#todo-form");
   // Get the trimmed value of the input field (trim trailing spaces)
   const todoText = todoInput.value.trim();
   // Check if the input field is not empty
@@ -143,6 +148,10 @@ document.querySelectorAll('input[name="filter"]').forEach((radio) => {
     displayTodos(this.value);
   });
 });
+
+// Event listener for the "Remove All Todos" button
+const removeAllButton = document.querySelector("#remove-all-btn");
+removeAllButton.addEventListener("click", removeAllTodos);
 
 // Function to remove all todos
 function removeAllTodos() {
