@@ -95,20 +95,30 @@ function addTodo(event) {
   const todoText = todoInput.value.trim();
   // Check if the input field is not empty
   if (todoText !== "") {
-    // Create a new todo object with the input text and default 'done' status
-    const newTodo = {
-      id: generateId(), //Math.floor(Math.random() * 999999999 * Date.now()), // konnen auch id so generieren.
-      description: todoText,
-      done: false,
-    };
-    // Add the new todo to the todos array
-    todos.push(newTodo);
-    // Update the display to reflect the changes
-    displayTodos();
-    // Clear the input field after adding the todo
-    todoInput.value = "";
-    // Save todos to Local Storage
-    saveTodosToLocalStorage();
+    // Check for duplicate todos (case-insensitive)
+    const isDuplicate = todos.some(
+      (todo) => todo.description.toLowerCase() === todoText.toLowerCase()
+    );
+
+    if (!isDuplicate) {
+      // Create a new todo object with the input text and default 'done' status
+      const newTodo = {
+        id: generateId(), //Math.floor(Math.random() * 999999999 * Date.now()), // konnen auch id so generieren.
+        description: todoText,
+        done: false,
+      };
+      // Add the new todo to the todos array
+      todos.push(newTodo);
+      // Update the display to reflect the changes
+      displayTodos();
+      // Clear the input field after adding the todo
+      todoInput.value = "";
+      // Save todos to Local Storage
+      saveTodosToLocalStorage();
+    } else {
+      // Inform the user that the todo is a duplicate
+      alert("Todo already exists!");
+    }
   }
 }
 
