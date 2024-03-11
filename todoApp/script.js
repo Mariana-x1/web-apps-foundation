@@ -22,7 +22,7 @@ function saveTodosToLocalStorage() {
 function displayTodos(filter = "All") {
   // Get the element where we'll display the todos
   const todoList = document.querySelector("#todo-list");
-
+  todoList.classList.add("todolist");
   // Clear the existing content
   todoList.innerText = "";
   //todoList.addEventListener("submit", updateTodo); ////////////////////////////**************** */
@@ -49,22 +49,28 @@ function displayTodos(filter = "All") {
     checkbox.id = "todo-" + todo.id;
     // Set the checked status based on the todo's done property
     checkbox.checked = todo.done;
-    checkbox.todoObj = todo;
+    //checkbox.todoObj = todo;
 
     //jedes Element braucht ein label mit for-Atribute (dieses zeigt auf die ID des input-Elements)
     const label = document.createElement("label");
+
     label.htmlFor = checkbox.id;
     li.append(checkbox, label);
     todoList.append(li);
 
     // Create an input field for editing the description
     const inputField = document.createElement("input");
+    inputField.classList.add("style-color-inputfield");
     inputField.type = "text";
     inputField.value = todo.description;
     inputField.setAttribute("readonly", true); // Set as readonly initially
+    if (todo.done) {
+      inputField.classList.add("done");
+    }
 
     // Create an edit button
     const editButton = document.createElement("button");
+    editButton.classList.add("editbtnstyle");
     editButton.textContent = "Edit";
     editButton.addEventListener("click", function () {
       editTodoDescription(inputField);
@@ -76,6 +82,7 @@ function displayTodos(filter = "All") {
     });
 
     const saveButton = document.createElement("button");
+    saveButton.classList.add("savebtnstyle");
     saveButton.textContent = "Save";
     saveButton.addEventListener(
       "click",
@@ -95,13 +102,16 @@ function displayTodos(filter = "All") {
         todo.done = this.checked;
         if (this.checked) {
           // Wenn die Checkbox überprüft ist, fügen Sie die Klasse 'done' hinzu, um den Text durchzustreichen
-          // li.classList.add(".done");
-          //li.style.textDecoration = "line-through";
+          // li.classList.add("done");
+          inputField.classList.add("done");
+          // li.style.textDecoration = "line-through";
         } else {
           // Wenn die Checkbox nicht überprüft ist, entfernen Sie die Klasse 'done'
           // li.classList.remove("done");
-          //li.style.textDecoration = "none";
+          inputField.classList.remove("done");
+          // li.style.textDecoration = "none";
         }
+
         displayTodos(filter); // Update the display after todo is toggled
         saveTodosToLocalStorage();
       })
@@ -123,8 +133,9 @@ function displayTodos(filter = "All") {
     });
 
     // Set the text content of the list item to the todo text
-    li.textContent = todo.description;
+    // li.textContent = todo.description;
     li.prepend(checkbox); // Prepend the checkbox to the list item
+    li.append(inputField);
     li.appendChild(deleteButton);
     li.appendChild(editButton);
     li.appendChild(saveButton);
@@ -135,6 +146,7 @@ function displayTodos(filter = "All") {
 
 // Event listener for form submission
 const todoForm = document.querySelector("#todo-form");
+todoForm.classList.add("todoformstyle");
 todoForm.addEventListener("submit", addTodo);
 
 // Function to add a new todo
@@ -142,6 +154,7 @@ function addTodo(event) {
   event.preventDefault();
   // Get the input field for the todo
   const todoInput = document.querySelector("#todo-input");
+
   // const todoForm = document.querySelector("#todo-form");
   // Get the trimmed value of the input field (trim trailing spaces)
   const todoText = todoInput.value.trim();
