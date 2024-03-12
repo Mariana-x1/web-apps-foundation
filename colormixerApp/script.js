@@ -22,7 +22,7 @@ function updateColor() {
   document.body.style.backgroundColor = color;
   colorDisplay.textContent = `RGB: ${red}, ${green}, ${blue}`;
 }
-
+/*
 function getRandomColor() {
   fetch("https://dummy-apis.netlify.app/api/color")
     .then((response) => response.json())
@@ -34,6 +34,19 @@ function getRandomColor() {
       updateColor(r, g, b);
     })
     .catch((error) => console.error("Error fetching random color:", error));
+} */
+async function getRandomColor() {
+  try {
+    const response = await fetch("https://dummy-apis.netlify.app/api/color");
+    const data = await response.json();
+    const { r, g, b } = data.rgb;
+    redSlider.value = r;
+    greenSlider.value = g;
+    blueSlider.value = b;
+    updateColor(r, g, b);
+  } catch (error) {
+    console.error("Error fetching random color:", error);
+  }
 }
 
 // Initial update of color
