@@ -11,6 +11,7 @@ redSlider.addEventListener("input", updateColor);
 greenSlider.addEventListener("input", updateColor);
 blueSlider.addEventListener("input", updateColor);
 
+// Event listener for random color button click
 randomColorBtn.addEventListener("click", getRandomColor);
 
 // Function to update color based on slider values
@@ -21,7 +22,13 @@ function updateColor() {
   const color = `rgb(${red}, ${green}, ${blue})`;
   document.body.style.backgroundColor = color;
   colorDisplay.textContent = `RGB: ${red}, ${green}, ${blue}`;
+
+  // Save color values to localStorage
+  localStorage.setItem("red", red);
+  localStorage.setItem("green", green);
+  localStorage.setItem("blue", blue);
 }
+
 /*
 function getRandomColor() {
   fetch("https://dummy-apis.netlify.app/api/color")
@@ -35,6 +42,8 @@ function getRandomColor() {
     })
     .catch((error) => console.error("Error fetching random color:", error));
 } */
+
+// Function to get random color from API
 async function getRandomColor() {
   try {
     const response = await fetch("https://dummy-apis.netlify.app/api/color");
@@ -49,5 +58,17 @@ async function getRandomColor() {
   }
 }
 
+// Load saved color values from localStorage on page load
+window.addEventListener("load", () => {
+  const savedRed = localStorage.getItem("red");
+  const savedGreen = localStorage.getItem("green");
+  const savedBlue = localStorage.getItem("blue");
+  if (savedRed && savedGreen && savedBlue) {
+    redSlider.value = savedRed;
+    greenSlider.value = savedGreen;
+    blueSlider.value = savedBlue;
+    updateColor();
+  }
+});
 // Initial update of color
-updateColor();
+// updateColor();
