@@ -5,6 +5,19 @@ const greenSlider = document.getElementById("greenSlider");
 const blueSlider = document.getElementById("blueSlider");
 
 // Event listeners for slider input changes
-redSlider.addEventListener("input");
-greenSlider.addEventListener("input");
-blueSlider.addEventListener("input");
+redSlider.addEventListener("input", updateColor);
+greenSlider.addEventListener("input", updateColor);
+blueSlider.addEventListener("input", updateColor);
+
+// Function to update color based on slider values
+function updateColor() {
+  const red = redSlider.value;
+  const green = greenSlider.value;
+  const blue = blueSlider.value;
+  const color = `rgb(${red}, ${green}, ${blue})`;
+  document.body.style.backgroundColor = color;
+  colorDisplay.textContent = `RGB: ${red}, ${green}, ${blue}`;
+}
+
+// Initial update of color
+updateColor();
