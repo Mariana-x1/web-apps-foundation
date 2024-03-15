@@ -9,9 +9,18 @@
 
 body {
   background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
 }
 
-.container {
+/* .container {
+  background-color: gray;
+  margin-top: 20px;
+  border: none;
+  display: block;
+} */
+section {
+  max-width: 900px;
   background-color: gray;
   margin-top: 20px;
   border: none;

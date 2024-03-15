@@ -151,7 +151,7 @@ todoForm.addEventListener("submit", addTodo);
 
 // Function to add a new todo
 function addTodo(event) {
-  event.preventDefault();
+  //event.preventDefault();
   // Get the input field for the todo
   const todoInput = document.querySelector("#todo-input");
 

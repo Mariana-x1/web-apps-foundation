@@ -9,31 +9,32 @@
 </head>
 
 <body>
-    <h1 class="todoList-title ">Todo List</h1>
-    <div class="input-radiofelder">
-        <input type="radio" id="all" name="filter" value="All" checked>
-        <label for="all">All</label>
+    <section>
+        <h1 class="todoList-title ">Todo List</h1>
+        <div class="input-radiofelder">
+            <input type="radio" id="all" name="filter" value="All" checked>
+            <label for="all">All</label>
 
-        <input type="radio" id="open" name="filter" value="Open">
-        <label for="open">Open</label>
+            <input type="radio" id="open" name="filter" value="Open">
+            <label for="open">Open</label>
 
-        <input type="radio" id="done" name="filter" value="Done">
-        <label for="done">Done</label>
-    </div>
-    <form id="todo-form">
-        <input type="text" id="todo-input" placeholder="Enter your todo">
-        <button onclick="addTodo()">Add Todo</button>
-    </form>
-
-
-    <!-- Remove All Todos button -->
-    <button class="remove-button" id="remove-all-btn">Remove All Todos</button>
+            <input type="radio" id="done" name="filter" value="Done">
+            <label for="done">Done</label>
+        </div>
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="Enter your todo">
+            <button onclick="addTodo()">Add Todo</button>
+        </form>
 
 
-    <ul id="todo-list" class="container">
-        <!-- Todos will be dynamically added here -->
-    </ul>
+        <!-- Remove All Todos button -->
+        <button class="remove-button" id="remove-all-btn">Remove All Todos</button>
 
+
+        <ul id="todo-list" class="container">
+            <!-- Todos will be dynamically added here -->
+        </ul>
+    </section>
     <script src="script.js"></script>
 </body>
 
