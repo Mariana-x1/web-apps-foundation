@@ -24,7 +24,7 @@ todoForm.addEventListener("submit", function (event) {
       description: todoText,
       done: false,
       //Generate unique ID for the new todo
-      id: generateId(), // newTodo (das kommt vom ternary operator)//Math.floor(Math.random() * 999999999 * Date.now()),
+      id: generateTodoId(), //generateId(), // newTodo (das kommt vom ternary operator)//Math.floor(Math.random() * 999999999 * Date.now()),
     };
 
     // Add the new todo to the list of todos
@@ -50,7 +50,12 @@ function renderTodoList() {
     todoList.appendChild(todoItem);
   });
 }
-
+// Define a counter variable for generating IDs
+let todoIdCounter = 1;
+function generateTodoId() {
+  return Date.now();
+}
+/*
 function generateId() {
   // Check if todos array is not empty
   if (todos.length > 0) {
@@ -60,5 +65,5 @@ function generateId() {
     // If empty, return 1 as the default ID
     return 1;
   }
-}
+}*/
 renderTodoList();
