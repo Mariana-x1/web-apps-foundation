@@ -57,7 +57,22 @@ function renderTodoList() {
   // Gehe durch alle Todos im Anwendungsstatus und füge sie der Liste hinzu
   todos.forEach((todo) => {
     const todoItem = document.createElement("li");
-    todoItem.textContent = todo.description;
+    // Add a checkbox for the done property
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.done; // Set the checked state based on the todo's done property
+    checkbox.addEventListener("change", function () {
+      // Update the state of the corresponding todo when the checkbox is changed
+      todo.done = checkbox.checked;
+      saveTodosToLocalStorage(); // Save the updated todos to local storage
+    });
+    todoItem.appendChild(checkbox);
+    //todoItem.textContent = todo.description;
+    // Display the description of the todo
+    const descriptionSpan = document.createElement("span");
+    descriptionSpan.textContent = todo.description;
+    todoItem.appendChild(descriptionSpan);
+
     todoList.appendChild(todoItem);
   });
 }
