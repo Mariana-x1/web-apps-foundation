@@ -7,6 +7,8 @@ const filterAllRadio = document.querySelector("#all");
 const filterOpenRadio = document.querySelector("#open");
 const filterDoneRadio = document.querySelector("#done");
 
+const removeDoneButton = document.querySelector("#remove-all-btn");
+
 // Definiere den Anfangszustand der Anwendung
 let todos = [
   { description: "learn HTML", done: false, id: 1 },
@@ -112,6 +114,14 @@ function generateTodoId() {
   saveTodosToLocalStorage();
 }
 //***************************************************************
+
+// Event listener for the "Remove Done Todos" button
+removeDoneButton.addEventListener("click", function () {
+  // Filter out the done todos
+  todos = todos.filter((todo) => !todo.done);
+  saveTodosToLocalStorage();
+  renderTodoList();
+});
 
 loadTodosFromLocalStorage();
 renderTodoList();
