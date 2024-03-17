@@ -3,13 +3,17 @@ const todoList = document.querySelector("#todo-list");
 const todoForm = document.querySelector("#todo-form");
 const newTodoInput = document.querySelector("#new-todo-input");
 
+const filterAllRadio = document.querySelector("#all");
+const filterOpenRadio = document.querySelector("#open");
+const filterDoneRadio = document.querySelector("#done");
+
 // Definiere den Anfangszustand der Anwendung
 let todos = [
   { description: "learn HTML", done: false, id: 1 },
   { description: "learn JS", done: false, id: 2 },
   { description: "learn CSS", done: false, id: 3 },
 ];
-
+//*********************************************************
 // Load todos from Local Storage
 function loadTodosFromLocalStorage() {
   const storedTodos = localStorage.getItem("todos");
@@ -23,7 +27,8 @@ function saveTodosToLocalStorage() {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
-// Event listener for submitting new todo
+//***********************************************************
+// Event listener for submitting new todo   //inputfeld und Add Todo button
 todoForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent form submission
   const todoText = newTodoInput.value.trim(); // Get the trimmed value from the input field
@@ -42,11 +47,9 @@ todoForm.addEventListener("submit", function (event) {
         id: generateTodoId(),
       };
 
-      // Add the new todo to the list of todos
-      todos.push(newTodo);
+      todos.push(newTodo); // Add the new todo to the list of todos
 
-      // Clear the input field
-      newTodoInput.value = "";
+      newTodoInput.value = ""; // Clear the input field
 
       // Render the updated todo list
       saveTodosToLocalStorage();
@@ -57,13 +60,31 @@ todoForm.addEventListener("submit", function (event) {
   }
 });
 
+//***********************************************************************
+
+// Event listener for filter radio buttons
+filterAllRadio.addEventListener("change", renderTodoList);
+filterOpenRadio.addEventListener("change", renderTodoList);
+filterDoneRadio.addEventListener("change", renderTodoList);
+
+//*********************************************************************
+
 // Funktion zum Rendern der Todo-Liste
 function renderTodoList() {
   // Leere die Todo-Liste, um sie neu zu rendern
   todoList.innerText = "";
+  // Filter the todos based on the selected filter option
+  let filteredTodos = todos;
+  if (filterOpenRadio.checked) {
+    filteredTodos = todos.filter((todo) => !todo.done);
+  } else if (filterDoneRadio.checked) {
+    filteredTodos = todos.filter((todo) => todo.done);
+  }
 
   // Gehe durch alle Todos im Anwendungsstatus und füge sie der Liste hinzu
-  todos.forEach((todo) => {
+  filteredTodos.forEach((todo) => {
+    // Gehe durch alle Todos im Anwendungsstatus und füge sie der Liste hinzu
+    // todos.forEach((todo) => {
     const todoItem = document.createElement("li");
     // Add a checkbox for the done property
     const checkbox = document.createElement("input");
@@ -90,5 +111,7 @@ function generateTodoId() {
   return Date.now();
   saveTodosToLocalStorage();
 }
+//***************************************************************
+
 loadTodosFromLocalStorage();
 renderTodoList();
