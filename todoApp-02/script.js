@@ -29,23 +29,31 @@ todoForm.addEventListener("submit", function (event) {
   const todoText = newTodoInput.value.trim(); // Get the trimmed value from the input field
   // Check if the input field is not empty
   if (todoText !== "") {
-    // Create a new todo object
-    const newTodo = {
-      description: todoText,
-      done: false,
-      //Generate unique ID for the new todo
-      id: generateTodoId(),
-    };
+    // Check if the todo description already exists in the list (case-insensitive)
+    const isDuplicate = todos.some(
+      (todo) => todo.description.toLowerCase() === todoText.toLowerCase()
+    );
+    if (!isDuplicate) {
+      // Create a new todo object
+      const newTodo = {
+        description: todoText,
+        done: false,
+        //Generate unique ID for the new todo
+        id: generateTodoId(),
+      };
 
-    // Add the new todo to the list of todos
-    todos.push(newTodo);
+      // Add the new todo to the list of todos
+      todos.push(newTodo);
 
-    // Clear the input field
-    newTodoInput.value = "";
+      // Clear the input field
+      newTodoInput.value = "";
 
-    // Render the updated todo list
-    saveTodosToLocalStorage();
-    renderTodoList();
+      // Render the updated todo list
+      saveTodosToLocalStorage();
+      renderTodoList();
+    } else {
+      alert("Todo with this description already exists.");
+    }
   }
 });
 
