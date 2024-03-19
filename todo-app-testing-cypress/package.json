@@ -2,7 +2,9 @@
   "name": "todo-app-testing-cypress",
   "version": "1.0.0",
   "description": "Minimal todo app example.",
-  "scripts": {},
+  "scripts": {
+    "serve": "serve ./src"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
