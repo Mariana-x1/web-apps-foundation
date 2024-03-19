@@ -36,6 +36,11 @@ todoForm.addEventListener("submit", function (event) {
   const todoText = newTodoInput.value.trim(); // Get the trimmed value from the input field
   // Check if the input field is not empty
   if (todoText !== "") {
+    ////////////////////////
+    addTodo(todoText); // Funktion aufrufen, um das neue Todo hinzuzufügen
+  } else {
+    alert("Please enter a todo description.");
+    ////////////////////////
     // Check if the todo description already exists in the list (case-insensitive)
     const isDuplicate = todos.some(
       (todo) => todo.description.toLowerCase() === todoText.toLowerCase()
@@ -95,6 +100,17 @@ function renderTodoList() {
     checkbox.addEventListener("change", function () {
       // Update the state of the corresponding todo when the checkbox is changed
       todo.done = checkbox.checked;
+      //////////////////////
+      updateTodo(todo.id, todo); // Funktion aufrufen, um das Todo zu aktualisieren
+      //////////////////////
+      // Create a delete button
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      // Add event listener to the delete button
+      deleteButton.addEventListener("click", function () {
+        deleteTodo(todo.id);
+      });
+      ////////////////////////////
       saveTodosToLocalStorage(); // Save the updated todos to local storage
     });
     todoItem.appendChild(checkbox);
@@ -105,6 +121,7 @@ function renderTodoList() {
     todoItem.appendChild(descriptionSpan);
 
     todoList.appendChild(todoItem);
+    todoList.appendChild(deleteButton);
   });
 }
 // Define a counter variable for generating IDs
@@ -123,5 +140,41 @@ removeDoneButton.addEventListener("click", function () {
   renderTodoList();
 });
 
+////////////////////////////////
+function addTodo(description) {
+  const newTodo = {
+    description: description,
+    done: false,
+    id: generateTodoId(),
+  };
+  todos.push(newTodo);
+  saveTodosToLocalStorage();
+  renderTodoList();
+}
+
+////////////////////////////////
+function updateTodo(id, updatedTodo) {
+  const index = todos.findIndex((todo) => todo.id === id);
+  if (index !== -1) {
+    todos[index] = updatedTodo;
+    saveTodosToLocalStorage();
+    renderTodoList();
+  }
+}
+
+///////////////////////////////
+function deleteTodo(id) {
+  todos = todos.filter((todo) => todo.id !== id);
+  saveTodosToLocalStorage();
+  renderTodoList();
+}
+//////////////////////////////
+// Function to delete a todo by ID
+function deleteTodo(todoId) {
+  // Filter out the todo with the specified ID and update the todos array
+  todos = todos.filter((todo) => todo.id !== todoId);
+  // Update the display to reflect the changes
+  renderTodoList();
+}
 loadTodosFromLocalStorage();
 renderTodoList();
